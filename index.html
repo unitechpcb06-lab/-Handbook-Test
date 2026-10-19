@@ -1,0 +1,442 @@
+<!doctype html>
+<html lang="my">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0d2238">
+<title>Handbook Test · UNITECH PCB</title>
+<link rel="icon" href="logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Myanmar:wght@400;600;700&family=Noto+Sans+TC:wght@400;500;700&family=IBM+Plex+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* PCB look: deep board-navy header with copper traces, white cards, copper accents */
+:root{
+  --board:#0d2238; --board-2:#16365a; --copper:#c8742f; --copper-soft:#fbeee2;
+  --bg:#eef1f5; --card:#ffffff; --ink:#142131; --muted:#5c6a7c; --line:#dbe2eb;
+  --ok:#14804a; --ok-soft:#e3f4ea; --bad:#c2372f; --bad-soft:#fbe9e7; --info-soft:#e7eef8;
+  --f-th:"IBM Plex Sans Thai","Noto Sans Thai",system-ui,sans-serif;
+  --f-my:"Noto Sans Myanmar","Myanmar Text","Padauk",system-ui,sans-serif;
+  --f-zh:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-th);line-height:1.65;-webkit-text-size-adjust:100%;min-height:100vh}
+body.l-my{font-family:var(--f-my);line-height:1.85}
+body.l-zh{font-family:var(--f-zh)}
+button{font:inherit;color:inherit}
+button:focus-visible,input:focus-visible{outline:3px solid var(--copper);outline-offset:2px}
+
+/* Header */
+.top{background:var(--board);color:#fff;position:relative;overflow:hidden;
+  padding:14px max(16px,env(safe-area-inset-right)) 14px max(16px,env(safe-area-inset-left));padding-top:calc(14px + env(safe-area-inset-top))}
+.top::before{content:"";position:absolute;inset:0;opacity:.22;pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='80' viewBox='0 0 160 80'%3E%3Cg fill='none' stroke='%23e8a46b' stroke-width='1.4'%3E%3Cpath d='M0 20h40l12 12h40l10-10h58'/%3E%3Cpath d='M0 60h22l14-14h50l14 14h60'/%3E%3Cpath d='M120 0v14l-10 10'/%3E%3C/g%3E%3Cg fill='%23e8a46b'%3E%3Ccircle cx='52' cy='32' r='3'/%3E%3Ccircle cx='102' cy='22' r='3'/%3E%3Ccircle cx='36' cy='46' r='3'/%3E%3Ccircle cx='110' cy='24' r='2.5'/%3E%3C/g%3E%3C/svg%3E");
+  background-size:160px 80px}
+.top-in{position:relative;max-width:560px;margin:0 auto;display:grid;gap:12px}
+.brand{display:flex;align-items:center;gap:12px;min-width:0}
+.logo-box{width:46px;height:46px;flex:none;border-radius:12px;background:#fff;display:grid;place-items:center;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.25)}
+.logo-box img{width:100%;height:100%;object-fit:contain;padding:4px}
+.logo-fb{font:700 15px/1 var(--f-th);color:var(--board);letter-spacing:.02em}
+.brand-t{min-width:0}
+.brand-t b{display:block;font:600 12px/1.3 var(--f-th);letter-spacing:.12em;color:#f3c9a5}
+.brand-t span{display:block;font-size:18px;font-weight:700;line-height:1.45}
+.langs{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;background:rgba(255,255,255,.1);border-radius:12px;padding:4px}
+.langs button{border:0;background:transparent;color:#dfe7f1;border-radius:9px;padding:6px 4px;cursor:pointer;font-weight:600;font-size:15px;line-height:1.5}
+.langs button[data-l="my"]{font-family:var(--f-my)}
+.langs button[data-l="th"]{font-family:var(--f-th)}
+.langs button[data-l="zh"]{font-family:var(--f-zh)}
+.langs button.on{background:#fff;color:var(--board)}
+
+main{max-width:560px;margin:0 auto;padding:18px max(16px,env(safe-area-inset-right)) 40px max(16px,env(safe-area-inset-left))}
+.card{background:var(--card);border-radius:18px;padding:22px;box-shadow:0 1px 2px rgba(13,34,56,.06),0 8px 24px rgba(13,34,56,.06);margin-bottom:14px}
+h1{font-size:21px;margin:0 0 4px;line-height:1.5;text-wrap:balance}
+.lead{color:var(--muted);margin:0 0 18px;font-size:15px}
+label.f{display:block;font-size:14px;font-weight:600;color:var(--muted);margin-bottom:6px}
+input.code{width:100%;font:600 26px/1.3 var(--f-th);padding:14px 16px;border:2px solid var(--line);border-radius:14px;text-transform:uppercase;letter-spacing:.12em;text-align:center;background:#fbfcfd}
+input.code:focus{outline:none;border-color:var(--copper);background:#fff}
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;border:0;border-radius:14px;padding:15px 16px;font-weight:700;font-size:17px;cursor:pointer;margin-top:12px;line-height:1.5;min-height:56px}
+.primary{background:var(--board);color:#fff}
+.primary:active{background:var(--board-2)}
+.ghost{background:#fff;color:var(--board);border:2px solid var(--line)}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.msg{margin-top:12px;padding:10px 14px;border-radius:12px;font-size:15px}
+.msg:empty{display:none}
+.msg.err{background:var(--bad-soft);color:var(--bad)}
+.msg.info{background:var(--copper-soft);color:#8a4a17}
+
+.who{display:flex;align-items:center;gap:14px;margin-bottom:16px}
+.avatar{width:52px;height:52px;border-radius:50%;background:var(--info-soft);color:var(--board);display:grid;place-items:center;font:700 20px var(--f-th);flex:none}
+.who b{display:block;font-size:19px;line-height:1.4}
+.who span{color:var(--muted);font-size:14px}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:6px 16px;font-size:15px;padding:12px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.kv dt{color:var(--muted)} .kv dd{margin:0;font-weight:600}
+.stage{margin-top:16px;border-radius:14px;padding:14px 16px;background:var(--info-soft);color:var(--board)}
+.stage small{display:block;font-size:13px;color:var(--muted)}
+.stage b{font-size:17px}
+.stage.done{background:var(--ok-soft);color:var(--ok)}
+
+/* Exam */
+.meta{display:flex;justify-content:space-between;align-items:center;font-size:14px;color:var(--muted);margin-bottom:8px}
+.pill{background:var(--board);color:#fff;border-radius:99px;padding:2px 12px;font-size:13px;font-weight:600}
+.bar{height:8px;background:#dfe5ee;border-radius:99px;overflow:hidden;margin-bottom:14px}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--copper),#e09a5c);transition:width .25s}
+.qno{display:inline-flex;gap:6px;align-items:center;background:var(--copper-soft);color:#8a4a17;font-weight:700;border-radius:8px;padding:2px 10px;font-size:13px;margin-bottom:10px}
+.qtext{font-size:20px;font-weight:600;margin:0;line-height:1.75}
+body.l-my .qtext{font-size:19px;line-height:1.95}
+.opts{display:grid;gap:10px;margin-top:18px}
+.opts.tf{grid-template-columns:1fr 1fr}
+.opt{border:2px solid var(--line);background:#fff;border-radius:14px;padding:14px;text-align:left;font-size:16px;cursor:pointer;line-height:1.6;display:flex;gap:10px;align-items:flex-start}
+.opt .n{flex:none;width:28px;height:28px;border-radius:50%;background:var(--info-soft);color:var(--board);display:grid;place-items:center;font:700 14px var(--f-th)}
+.opt.sel{border-color:var(--board);background:var(--info-soft)}
+.opt.sel .n{background:var(--board);color:#fff}
+.opt.tfbtn{flex-direction:column;align-items:center;text-align:center;padding:18px 8px;font-size:19px;font-weight:700}
+.opt.tfbtn .ico{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;font-size:24px;line-height:1;border:2px solid currentColor}
+.opt.tfbtn.o{color:var(--ok)} .opt.tfbtn.x{color:var(--bad)}
+.opt.tfbtn.o.sel{background:var(--ok-soft);border-color:var(--ok)}
+.opt.tfbtn.x.sel{background:var(--bad-soft);border-color:var(--bad)}
+.opt.tfbtn.sel .ico{background:currentColor}
+.opt.tfbtn.sel .ico span{color:#fff}
+.nav{display:grid;grid-template-columns:1fr 2fr;gap:10px}
+.nav .btn{margin-top:0}
+.dots{display:grid;grid-template-columns:repeat(auto-fill,minmax(36px,1fr));gap:6px;margin-top:16px}
+.dots button{height:36px;border-radius:9px;border:1px solid var(--line);background:#fff;font:500 13px var(--f-th);cursor:pointer;color:var(--muted);padding:0}
+.dots button.a{background:var(--board);color:#fff;border-color:var(--board)}
+.dots button.cur{outline:3px solid var(--copper);outline-offset:1px}
+
+.pad-wrap{border:2px dashed #c6d0dc;border-radius:14px;background:#fbfcfd;position:relative;margin-top:14px}
+canvas.pad{display:block;width:100%;height:200px;touch-action:none;border-radius:14px}
+.pad-hint{position:absolute;left:0;right:0;bottom:14px;text-align:center;color:#a5b0be;font-size:14px;pointer-events:none}
+.pad-line{position:absolute;left:24px;right:24px;bottom:48px;border-bottom:1px solid #d5dce5;pointer-events:none}
+.row2{display:grid;grid-template-columns:1fr 1.6fr;gap:10px}
+
+.result{text-align:center}
+.ring{width:170px;height:170px;margin:6px auto 4px;position:relative}
+.ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring .v{position:absolute;inset:0;display:grid;place-content:center;line-height:1.1}
+.ring .v b{font:700 46px/1 var(--f-th)}
+.ring .v span{font-size:15px;font-weight:500;color:var(--muted)}
+.badge{display:inline-flex;align-items:center;gap:8px;border-radius:99px;padding:8px 20px;font-weight:700;font-size:19px;margin-top:8px}
+.badge.ok{background:var(--ok-soft);color:var(--ok)}
+.badge.bad{background:var(--bad-soft);color:var(--bad)}
+.badge.pre{background:var(--info-soft);color:var(--board)}
+.note{font-size:15px;margin:14px 0 0;color:var(--muted)}
+.foot{text-align:center;color:#8d99a8;font-size:12px;margin-top:8px;font-family:var(--f-th)}
+.spin{display:inline-block;width:18px;height:18px;border:3px solid currentColor;border-right-color:transparent;border-radius:50%;animation:s .8s linear infinite}
+@keyframes s{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body class="l-my">
+<header class="top">
+  <div class="top-in">
+    <div class="brand">
+      <div class="logo-box"><img id="logo" alt="UNITECH PCB"></div>
+      <div class="brand-t"><b>UNITECH PCB (THAILAND)</b><span id="appTitle"></span></div>
+    </div>
+    <div class="langs" role="group" aria-label="Language">
+      <button data-l="my">မြန်မာ</button><button data-l="th">ไทย</button><button data-l="zh">中文</button>
+    </div>
+  </div>
+</header>
+<main id="app"></main>
+
+<script>
+/* ===== ตั้งค่า ===== */
+const API_URL = 'PASTE_WEB_APP_URL_HERE';   // URL ของ Apps Script Web App
+const LOGO_SRC = 'logo.png';                 // อัปโหลดไฟล์โลโก้ชื่อ logo.png ไว้โฟลเดอร์เดียวกัน
+
+/* ===== ข้อความ 3 ภาษา ===== */
+const T = {
+  my: {
+    app:'ဝန်ထမ်းလက်စွဲ စာမေးပွဲ', welcome:'ဝန်ထမ်းနံပါတ် ထည့်ပါ', welcomeSub:'HR မှ ပေးထားသော နံပါတ်ကို ထည့်ပါ။', codeLbl:'ဝန်ထမ်းနံပါတ်', login:'ဝင်မည်',
+    check:'ကိုယ့်အချက်အလက် စစ်ပါ', name:'အမည်', code:'ဝန်ထမ်းနံပါတ်', dept:'ဌာန', thisTime:'ယခု ဖြေဆိုရမည်',
+    pre:'သင်တန်းမတက်မီ စာမေးပွဲ', post:'သင်တန်းပြီး စာမေးပွဲ', att:n=>`အကြိမ် ${n}`,
+    prev:s=>`ယခင် ရမှတ် ${s} — မအောင်သေးပါ`, passed:s=>`အောင်ပြီး ဖြစ်ပါသည် (ရမှတ် ${s})`,
+    start:'ဟုတ်ပါသည်၊ စတင်ဖြေမည်', notMe:'ကျွန်ုပ် မဟုတ်ပါ', exit:'ထွက်မည်',
+    tf:'မှန်/မှား', mc:'အဖြေရွေးပါ', t:'မှန်', f:'မှား', back:'နောက်သို့', next:'ရှေ့သို့', toSign:'လက်မှတ်ထိုးရန်',
+    sign:'လက်မှတ်ထိုးပါ', signSub:'အဖြေအားလုံး ဖြေပြီးပါပြီ။ လက်မှတ်ထိုးပြီး ပေးပို့ပါ။', answered:'ဖြေပြီး', signHere:'ဤနေရာတွင် လက်မှတ်ထိုးပါ',
+    clear:'ဖျက်မည်', submit:'ပေးပို့မည်', review:'အဖြေများ ပြန်ကြည့်မည်',
+    preDone:'Pre-test ပြီးပါပြီ', preNote:'သင်တန်း တက်ပြီးနောက် Post-test ဖြေရပါမည်။', pass:'အောင်ပါသည်', fail:'မအောင်ပါ',
+    passNote:n=>`အကြိမ် ${n} ဖြင့် အောင်ပါသည်။ ပြီးဆုံးပါပြီ။`, failNote:(p,n)=>`အောင်မှတ် ${p}။ သင်ကြားသူနှင့် ပြန်လေ့လာပြီး ထပ်ဖြေပါ။ (အကြိမ် ${n})`,
+    retry:'ထပ်ဖြေမည်', nextPerson:'ထွက်မည် (နောက်တစ်ယောက်)', points:'မှတ်',
+    E:{NOT_FOUND:'ဝန်ထမ်းနံပါတ် မတွေ့ပါ။ HR ကို မေးပါ။', CLOSED:'ယခု စာမေးပွဲ ပိတ်ထားပါသည်။', ALREADY_PASSED:'စာမေးပွဲ အောင်ပြီး ဖြစ်ပါသည်။',
+       WRONG_STAGE:'အခြေအနေ ပြောင်းသွားပါသည်။ ပြန်ဝင်ပါ။', INCOMPLETE:'မေးခွန်းအားလုံး ဖြေပါ။', NO_SIGNATURE:'လက်မှတ် ထိုးပါ။',
+       SIG_TOO_LARGE:'လက်မှတ် ပြန်ထိုးပါ။', NET:'အင်တာနက် ပြဿနာ ရှိပါသည်။ ထပ်ကြိုးစားပါ။'}
+  },
+  th: {
+    app:'แบบทดสอบคู่มือพนักงาน', welcome:'กรอกรหัสพนักงาน', welcomeSub:'ใช้รหัสที่ได้รับจากฝ่ายบุคคล', codeLbl:'รหัสพนักงาน', login:'เข้าสู่ระบบ',
+    check:'ตรวจสอบข้อมูลของคุณ', name:'ชื่อ', code:'รหัสพนักงาน', dept:'แผนก', thisTime:'ครั้งนี้สอบ',
+    pre:'สอบก่อนอบรม', post:'สอบหลังอบรม', att:n=>`ครั้งที่ ${n}`,
+    prev:s=>`ครั้งก่อนได้ ${s} คะแนน — ยังไม่ผ่าน`, passed:s=>`สอบผ่านแล้ว (คะแนน ${s})`,
+    start:'ใช่ฉัน เริ่มสอบ', notMe:'ไม่ใช่ฉัน', exit:'ออก',
+    tf:'ถูก/ผิด', mc:'เลือกคำตอบ', t:'ถูก', f:'ผิด', back:'ย้อน', next:'ถัดไป', toSign:'ไปเซ็นชื่อ',
+    sign:'เซ็นชื่อ', signSub:'ตอบครบทุกข้อแล้ว เซ็นชื่อแล้วกดส่ง', answered:'ตอบแล้ว', signHere:'เซ็นชื่อที่นี่',
+    clear:'ล้าง', submit:'ส่งคำตอบ', review:'กลับไปดูคำตอบ',
+    preDone:'สอบก่อนอบรมเรียบร้อย', preNote:'เข้ารับการอบรม แล้วสอบหลังอบรม (Post-test)', pass:'ผ่าน', fail:'ไม่ผ่าน',
+    passNote:n=>`ผ่านในครั้งที่ ${n} — เสร็จสิ้น`, failNote:(p,n)=>`ต้องได้ ${p} คะแนนขึ้นไป ทบทวนกับผู้สอนแล้วสอบใหม่ (ครั้งที่ ${n})`,
+    retry:'สอบใหม่', nextPerson:'ออก (คนถัดไป)', points:'คะแนน',
+    E:{NOT_FOUND:'ไม่พบรหัสพนักงาน กรุณาติดต่อ HR', CLOSED:'ขณะนี้ปิดระบบสอบ', ALREADY_PASSED:'สอบผ่านแล้ว',
+       WRONG_STAGE:'สถานะเปลี่ยน กรุณาเข้าสู่ระบบใหม่', INCOMPLETE:'กรุณาตอบให้ครบทุกข้อ', NO_SIGNATURE:'กรุณาเซ็นชื่อ',
+       SIG_TOO_LARGE:'กรุณาเซ็นชื่อใหม่', NET:'เชื่อมต่อไม่ได้ กรุณาลองใหม่'}
+  },
+  zh: {
+    app:'員工手冊測驗', welcome:'請輸入工號', welcomeSub:'請使用人資提供的工號登入', codeLbl:'工號', login:'登入',
+    check:'請確認您的資料', name:'姓名', code:'工號', dept:'單位', thisTime:'本次測驗',
+    pre:'訓練前測驗', post:'訓練後測驗', att:n=>`第 ${n} 次`,
+    prev:s=>`上次得分 ${s} — 尚未及格`, passed:s=>`已通過（得分 ${s}）`,
+    start:'是我，開始測驗', notMe:'不是我', exit:'離開',
+    tf:'是非題', mc:'選擇題', t:'對', f:'錯', back:'上一題', next:'下一題', toSign:'前往簽名',
+    sign:'請簽名', signSub:'已完成所有題目，請簽名後送出。', answered:'已作答', signHere:'請在此簽名',
+    clear:'清除', submit:'送出', review:'返回檢查答案',
+    preDone:'訓練前測驗完成', preNote:'請參加訓練後，再進行訓練後測驗。', pass:'及格', fail:'不及格',
+    passNote:n=>`第 ${n} 次通過，測驗完成。`, failNote:(p,n)=>`及格分數為 ${p} 分，請與講師複習後重新測驗（第 ${n} 次）。`,
+    retry:'重新測驗', nextPerson:'離開（下一位）', points:'分',
+    E:{NOT_FOUND:'查無此工號，請洽人資。', CLOSED:'目前測驗未開放。', ALREADY_PASSED:'已通過測驗。',
+       WRONG_STAGE:'狀態已變更，請重新登入。', INCOMPLETE:'請回答所有題目。', NO_SIGNATURE:'請簽名。',
+       SIG_TOO_LARGE:'請重新簽名。', NET:'網路連線失敗，請再試一次。'}
+  }
+};
+
+const $app = document.getElementById('app');
+const S = { lang:'my', code:'', emp:null, status:null, open:true, stage:'', qs:[], idx:0, ans:{}, pad:null, timer:null, view:null, result:null };
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const t = k => T[S.lang][k];
+const err = code => esc(T[S.lang].E[code] || code);
+
+/* language */
+try{ const l = localStorage.getItem('fwLang'); if(T[l]) S.lang = l; }catch(e){}
+function setLang(l){
+  let sig = null;
+  if(S.view === viewSign && S.pad && S.pad.has()) sig = S.pad.data();
+  S.lang = l;
+  try{ localStorage.setItem('fwLang', l); }catch(e){}
+  document.documentElement.lang = l === 'zh' ? 'zh-Hant-TW' : l;
+  document.body.className = 'l-' + l;
+  document.getElementById('appTitle').textContent = t('app');
+  document.querySelectorAll('.langs button').forEach(b => b.classList.toggle('on', b.dataset.l === l));
+  if(S.view) S.view(S.result);
+  if(sig && S.pad) S.pad.restore(sig);
+}
+document.querySelectorAll('.langs button').forEach(b => b.onclick = () => setLang(b.dataset.l));
+
+/* logo with text fallback */
+(function(){
+  const img = document.getElementById('logo');
+  img.onerror = () => { img.replaceWith(Object.assign(document.createElement('span'), { className:'logo-fb', textContent:'UT' })); };
+  img.src = LOGO_SRC;
+})();
+
+async function api(action, data){
+  try{
+    const r = await fetch(API_URL, { method:'POST', headers:{'Content-Type':'text/plain;charset=utf-8'}, body: JSON.stringify({ action, ...data }) });
+    return await r.json();
+  }catch(e){ return { ok:false, error:'NET' }; }
+}
+function busy(btn, on){
+  if(on){ btn.dataset.h = btn.innerHTML; btn.innerHTML = '<span class="spin"></span>'; btn.disabled = true; }
+  else { btn.innerHTML = btn.dataset.h; btn.disabled = false; }
+}
+const qText = (o) => o[S.lang] || o.th || o.my || o.zh;
+
+/* ---------- 1. Login ---------- */
+function viewLogin(){
+  S.view = viewLogin;
+  const keep = document.getElementById('code')?.value || '';
+  $app.innerHTML = `
+  <form class="card" id="f" novalidate>
+    <h1>${t('welcome')}</h1>
+    <p class="lead">${t('welcomeSub')}</p>
+    <label class="f" for="code">${t('codeLbl')}</label>
+    <input class="code" id="code" autocomplete="off" autocapitalize="characters" spellcheck="false" value="${esc(keep)}">
+    <button class="btn primary" id="go">${t('login')}</button>
+    <div class="msg err" id="msg"></div>
+  </form>
+  <p class="foot">UNITECH PCB (Thailand) Co., Ltd. · HR</p>`;
+  const inp = document.getElementById('code');
+  document.getElementById('f').onsubmit = async e => {
+    e.preventDefault();
+    const code = inp.value.trim().toUpperCase();
+    if(!code) return inp.focus();
+    const btn = document.getElementById('go'); busy(btn, true);
+    const r = await api('login', { code });
+    busy(btn, false);
+    if(!r.ok){ document.getElementById('msg').innerHTML = err(r.error); return; }
+    Object.assign(S, { code, emp:r.emp, status:r.status, open:r.open });
+    viewConfirm();
+  };
+}
+function resetAll(){
+  clearTimeout(S.timer);
+  Object.assign(S, { code:'', emp:null, status:null, stage:'', qs:[], idx:0, ans:{}, pad:null, result:null });
+  $app.innerHTML = ''; viewLogin();
+}
+
+/* ---------- 2. Confirm ---------- */
+function stageLabel(stage, n){ return stage === 'PRE' ? `${t('pre')} · Pre-test` : `${t('post')} · Post-test · ${t('att')(n)}`; }
+function viewConfirm(){
+  S.view = viewConfirm;
+  const e = S.emp, st = S.status;
+  let box, act = '';
+  if(st.next === 'DONE'){
+    box = `<div class="stage done"><b>✓ ${t('passed')(st.passedScore)}</b></div>`;
+  }else{
+    const n = st.next === 'POST' ? st.postAttempts + 1 : 1;
+    box = `<div class="stage"><small>${t('thisTime')}</small><b>${stageLabel(st.next, n)}</b></div>`;
+    if(st.next === 'POST' && st.postAttempts > 0) box += `<div class="msg info">${t('prev')(st.lastPostScore)}</div>`;
+    act = S.open ? `<button class="btn primary" id="start">${t('start')}</button>` : `<div class="msg err">${err('CLOSED')}</div>`;
+  }
+  $app.innerHTML = `
+  <div class="card">
+    <h1 style="margin-bottom:16px">${t('check')}</h1>
+    <div class="who"><div class="avatar">${esc((e.name || '?').trim().charAt(0).toUpperCase())}</div>
+      <div><b>${esc(e.name)}</b><span>${esc(e.code)}</span></div></div>
+    <dl class="kv"><dt>${t('code')}</dt><dd>${esc(e.code)}</dd><dt>${t('dept')}</dt><dd>${esc(e.dept)}</dd></dl>
+    ${box}${act}
+    <button class="btn ghost" id="back">${st.next === 'DONE' ? t('exit') : t('notMe')}</button>
+    <div class="msg err" id="msg"></div>
+  </div>`;
+  document.getElementById('back').onclick = resetAll;
+  const s = document.getElementById('start');
+  if(s) s.onclick = async () => {
+    busy(s, true);
+    const r = await api('getExam', { code:S.code });
+    busy(s, false);
+    if(!r.ok){ document.getElementById('msg').innerHTML = err(r.error); return; }
+    Object.assign(S, { stage:r.stage, status:r.status, qs:r.questions, idx:0, ans:{} });
+    viewQuestion();
+  };
+}
+
+/* ---------- 3. Questions ---------- */
+function viewQuestion(){
+  S.view = viewQuestion;
+  const q = S.qs[S.idx], n = S.qs.length, a = S.ans[q.id], done = Object.keys(S.ans).length, last = S.idx === n - 1;
+  const opts = q.type === 'TF'
+    ? `<div class="opts tf">
+        <button class="opt tfbtn o ${a==='O'?'sel':''}" data-v="O"><span class="ico"><span>✓</span></span>${t('t')}</button>
+        <button class="opt tfbtn x ${a==='X'?'sel':''}" data-v="X"><span class="ico"><span>✕</span></span>${t('f')}</button></div>`
+    : `<div class="opts">${q.opts.map((o,i) => { const v = String(i+1);
+        return `<button class="opt ${a===v?'sel':''}" data-v="${v}"><span class="n">${v}</span><span>${esc(qText(o))}</span></button>`; }).join('')}</div>`;
+  $app.innerHTML = `
+  <div class="meta"><span class="pill">${S.stage === 'PRE' ? 'Pre-test' : 'Post-test'}</span><span>${S.idx+1} / ${n} · ${t('answered')} ${done}</span></div>
+  <div class="bar"><i style="width:${done/n*100}%"></i></div>
+  <div class="card">
+    <span class="qno">${q.type==='TF' ? 'I' : 'II'}-${esc(q.no)} · ${q.type==='TF' ? t('tf') : t('mc')}</span>
+    <p class="qtext">${esc(qText(q))}</p>
+    ${opts}
+  </div>
+  <div class="nav">
+    <button class="btn ghost" id="prev" ${S.idx===0?'disabled':''}>${t('back')}</button>
+    <button class="btn primary" id="next" ${a?'':'disabled'}>${last ? t('toSign') : t('next')}</button>
+  </div>
+  <div class="dots">${S.qs.map((x,i) => `<button data-i="${i}" class="${S.ans[x.id]?'a':''} ${i===S.idx?'cur':''}" aria-label="${i+1}">${i+1}</button>`).join('')}</div>
+  <div class="msg err" id="msg"></div>`;
+  $app.querySelectorAll('.opt').forEach(b => b.onclick = () => { S.ans[q.id] = b.dataset.v; viewQuestion(); });
+  $app.querySelectorAll('.dots button').forEach(b => b.onclick = () => { S.idx = +b.dataset.i; viewQuestion(); });
+  document.getElementById('prev').onclick = () => { if(S.idx > 0){ S.idx--; viewQuestion(); } };
+  document.getElementById('next').onclick = () => {
+    if(!last){ S.idx++; viewQuestion(); window.scrollTo(0,0); return; }
+    const miss = S.qs.findIndex(x => !S.ans[x.id]);
+    if(miss >= 0){ S.idx = miss; viewQuestion(); document.getElementById('msg').innerHTML = err('INCOMPLETE'); return; }
+    viewSign(); window.scrollTo(0,0);
+  };
+}
+
+/* ---------- 4. Signature ---------- */
+function initPad(cv){
+  const ctx = cv.getContext('2d'); let drawing = false, has = false, last = null;
+  const r = cv.getBoundingClientRect(), d = window.devicePixelRatio || 1;
+  cv.width = r.width * d; cv.height = r.height * d; ctx.scale(d, d);
+  ctx.lineWidth = 2.6; ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.strokeStyle = ctx.fillStyle = '#111';
+  const hintEl = cv.parentElement.querySelector('.pad-hint');
+  const hint = () => { if(hintEl) hintEl.style.visibility = has ? 'hidden' : 'visible'; };
+  const pos = e => { const b = cv.getBoundingClientRect(); return { x:e.clientX - b.left, y:e.clientY - b.top }; };
+  cv.addEventListener('pointerdown', e => { drawing = true; has = true; last = pos(e); cv.setPointerCapture(e.pointerId);
+    ctx.beginPath(); ctx.arc(last.x, last.y, 1.3, 0, 7); ctx.fill(); hint(); });
+  cv.addEventListener('pointermove', e => { if(!drawing) return; const p = pos(e);
+    ctx.beginPath(); ctx.moveTo(last.x, last.y); ctx.lineTo(p.x, p.y); ctx.stroke(); last = p; });
+  ['pointerup','pointercancel'].forEach(ev => cv.addEventListener(ev, () => drawing = false));
+  return {
+    has: () => has,
+    clear(){ ctx.clearRect(0, 0, cv.width, cv.height); has = false; hint(); },
+    restore(url){ const im = new Image(); im.onload = () => { ctx.drawImage(im, 0, 0, r.width, r.height); has = true; hint(); }; im.src = url; },
+    data(){
+      const o = document.createElement('canvas'); o.width = 420; o.height = Math.round(420 * cv.height / cv.width);
+      const c = o.getContext('2d'); c.fillStyle = '#fff'; c.fillRect(0, 0, o.width, o.height); c.drawImage(cv, 0, 0, o.width, o.height);
+      let u = o.toDataURL('image/png'); if(u.length > 45000) u = o.toDataURL('image/jpeg', 0.6); return u;
+    }
+  };
+}
+function viewSign(){
+  S.view = viewSign;
+  $app.innerHTML = `
+  <div class="card">
+    <h1>${t('sign')}</h1>
+    <p class="lead" style="margin-bottom:8px">${t('signSub')}</p>
+    <dl class="kv"><dt>${t('name')}</dt><dd>${esc(S.emp.name)}</dd><dt>${t('answered')}</dt><dd>${Object.keys(S.ans).length} / ${S.qs.length}</dd></dl>
+    <div class="pad-wrap"><canvas class="pad" id="pad"></canvas><div class="pad-line"></div><div class="pad-hint">✍ ${t('signHere')}</div></div>
+    <div class="row2">
+      <button class="btn ghost" id="clr">${t('clear')}</button>
+      <button class="btn primary" id="send">${t('submit')}</button>
+    </div>
+    <button class="btn ghost" id="back">${t('review')}</button>
+    <div class="msg err" id="msg"></div>
+  </div>`;
+  S.pad = initPad(document.getElementById('pad'));
+  document.getElementById('clr').onclick = () => S.pad.clear();
+  document.getElementById('back').onclick = () => { S.idx = S.qs.length - 1; viewQuestion(); };
+  document.getElementById('send').onclick = async () => {
+    const msg = document.getElementById('msg');
+    if(!S.pad.has()){ msg.innerHTML = err('NO_SIGNATURE'); return; }
+    const btn = document.getElementById('send'); busy(btn, true); msg.innerHTML = '';
+    const r = await api('submit', { code:S.code, stage:S.stage, answers:S.ans, signature:S.pad.data(), lang:S.lang, device:navigator.userAgent });
+    busy(btn, false);
+    if(!r.ok){ msg.innerHTML = err(r.error); return; }
+    S.status = r.status; S.result = r;
+    viewResult(r); window.scrollTo(0,0);
+  };
+}
+
+/* ---------- 5. Result ---------- */
+function viewResult(r){
+  S.view = viewResult;
+  const pct = Math.max(0, Math.min(100, r.pct ?? Math.round(r.score*100/r.total)));
+  const col = r.stage === 'PRE' ? 'var(--board)' : (r.result === 'PASS' ? 'var(--ok)' : 'var(--bad)');
+  const C = 2 * Math.PI * 70;
+  let badge, note, extra = '';
+  if(r.stage === 'PRE'){ badge = `<span class="badge pre">${t('preDone')}</span>`; note = t('preNote'); }
+  else if(r.result === 'PASS'){ badge = `<span class="badge ok">✓ ${t('pass')}</span>`; note = t('passNote')(r.attempt); }
+  else { badge = `<span class="badge bad">✕ ${t('fail')}</span>`; note = t('failNote')(r.passScore, r.attempt);
+         extra = `<button class="btn primary" id="retry">${t('retry')}</button>`; }
+  $app.innerHTML = `
+  <div class="card result">
+    <div style="font-weight:600">${esc(S.emp.name)} · ${esc(S.emp.code)}</div>
+    <div class="ring">
+      <svg viewBox="0 0 160 160"><circle cx="80" cy="80" r="70" fill="none" stroke="#e3e8ef" stroke-width="12"/>
+        <circle cx="80" cy="80" r="70" fill="none" stroke="${col}" stroke-width="12" stroke-linecap="round" stroke-dasharray="${C*pct/100} ${C}"/></svg>
+      <div class="v"><b style="color:${col}">${r.score}</b><span>/ ${r.total} ${t('points')}</span></div>
+    </div>
+    ${badge}
+    <p class="note">${note}</p>
+    ${extra}
+    <button class="btn ghost" id="out">${t('nextPerson')}</button>
+  </div>`;
+  document.getElementById('out').onclick = resetAll;
+  const rt = document.getElementById('retry');
+  if(rt) rt.onclick = async () => {
+    busy(rt, true);
+    const x = await api('login', { code:S.code });
+    busy(rt, false);
+    if(x.ok){ S.status = x.status; S.open = x.open; S.result = null; viewConfirm(); }
+  };
+  clearTimeout(S.timer);
+  S.timer = setTimeout(resetAll, 120000); // เครื่องใช้ร่วมกัน: กลับหน้าแรกใน 2 นาที
+}
+
+setLang(S.lang);
+viewLogin();
+</script>
+</body>
+</html>

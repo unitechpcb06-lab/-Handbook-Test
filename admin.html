@@ -1,0 +1,435 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>HR · Handbook Test · UNITECH PCB</title>
+<link rel="icon" href="logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&family=Noto+Sans+Myanmar:wght@400;600&display=swap" rel="stylesheet">
+<style>
+/* HR console: board-navy top bar with copper traces, white panels, status pills */
+:root{
+  --board:#0d2238; --board-2:#16365a; --copper:#c8742f; --copper-soft:#fbeee2;
+  --bg:#eef1f5; --card:#fff; --ink:#142131; --muted:#5c6a7c; --line:#dbe2eb; --head:#f6f8fb;
+  --ok:#14804a; --ok-soft:#e3f4ea; --bad:#c2372f; --bad-soft:#fbe9e7; --warn:#9a5a12; --warn-soft:#fdf1e1; --grey-soft:#eceff3;
+  --f-th:"IBM Plex Sans Thai","Noto Sans Thai",system-ui,sans-serif;
+  --f-zh:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
+  --f-my:"Noto Sans Myanmar","Myanmar Text",system-ui,sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-th);line-height:1.6;font-size:15px}
+body.l-zh{font-family:var(--f-zh)}
+button{font:inherit}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--copper);outline-offset:2px}
+
+.top{background:var(--board);color:#fff;position:relative;overflow:hidden}
+.top::before{content:"";position:absolute;inset:0;opacity:.2;pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='80' viewBox='0 0 160 80'%3E%3Cg fill='none' stroke='%23e8a46b' stroke-width='1.4'%3E%3Cpath d='M0 20h40l12 12h40l10-10h58'/%3E%3Cpath d='M0 60h22l14-14h50l14 14h60'/%3E%3Cpath d='M120 0v14l-10 10'/%3E%3C/g%3E%3Cg fill='%23e8a46b'%3E%3Ccircle cx='52' cy='32' r='3'/%3E%3Ccircle cx='102' cy='22' r='3'/%3E%3Ccircle cx='36' cy='46' r='3'/%3E%3C/g%3E%3C/svg%3E");background-size:160px 80px}
+.top-in{position:relative;max-width:1200px;margin:0 auto;padding:12px 16px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.logo-box{width:40px;height:40px;flex:none;border-radius:10px;background:#fff;display:grid;place-items:center;overflow:hidden}
+.logo-box img{width:100%;height:100%;object-fit:contain;padding:3px}
+.logo-fb{font:700 14px var(--f-th);color:var(--board)}
+.brand b{display:block;font:600 11px/1.3 var(--f-th);letter-spacing:.12em;color:#f3c9a5}
+.brand span{font-weight:700;font-size:16px}
+.sp{flex:1}
+.tabs{display:flex;gap:4px;flex-wrap:wrap}
+.tabs button,.seg button{border:0;background:rgba(255,255,255,.1);color:#dfe7f1;border-radius:9px;padding:6px 12px;cursor:pointer;font-weight:600}
+.tabs button.on,.seg button.on{background:#fff;color:var(--board)}
+.seg{display:flex;gap:2px;background:rgba(255,255,255,.1);border-radius:10px;padding:3px}
+.seg button{background:transparent;padding:4px 10px}
+.seg button[data-l="zh"]{font-family:var(--f-zh)}
+
+main{max-width:1200px;margin:0 auto;padding:16px}
+.card{background:var(--card);border-radius:16px;padding:16px;margin-bottom:14px;box-shadow:0 1px 2px rgba(13,34,56,.06),0 6px 20px rgba(13,34,56,.05)}
+.btn{border:0;border-radius:10px;padding:9px 14px;font-weight:600;cursor:pointer;background:var(--board);color:#fff}
+.btn.ghost{background:#fff;color:var(--board);border:1px solid var(--line)}
+.btn.green{background:var(--ok)} .btn.red{background:var(--bad)}
+input,select{font:inherit;padding:8px 10px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--ink)}
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.live{font-size:13px;color:var(--muted)}
+.live i{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--ok);margin-right:6px;animation:p 1.6s infinite}
+@keyframes p{50%{opacity:.25}}
+.kpis{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:14px}
+.kpi{background:var(--card);border-radius:16px;padding:16px 18px;box-shadow:0 1px 2px rgba(13,34,56,.06),0 6px 20px rgba(13,34,56,.05);border-top:4px solid var(--board)}
+.kpi.ok{border-top-color:var(--ok)} .kpi.bad{border-top-color:var(--bad)}
+.kpi .l{color:var(--muted);font-size:14px}
+.kpi .v{font:700 44px/1.15 var(--f-th);font-variant-numeric:tabular-nums}
+.kpi.ok .v{color:var(--ok)} .kpi.bad .v{color:var(--bad)}
+.sub{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+.chip{font-size:13px;border-radius:99px;padding:2px 10px;background:var(--grey-soft);color:var(--muted)}
+.prog{height:10px;border-radius:99px;background:var(--bad-soft);overflow:hidden;margin:8px 0 4px}
+.prog i{display:block;height:100%;background:var(--ok);transition:width .3s}
+.tbl-wrap{overflow-x:auto}
+table.t{width:100%;border-collapse:collapse;font-size:14px}
+.t th,.t td{padding:10px;border-bottom:1px solid var(--line);text-align:left;white-space:nowrap}
+.t th{color:var(--muted);font-weight:600;font-size:13px;background:var(--head)}
+.t td.num{text-align:right;font-variant-numeric:tabular-nums}
+.t tbody tr:hover{background:#f9fbfd}
+.st{display:inline-block;border-radius:99px;padding:1px 10px;font-size:13px;font-weight:600}
+.st.PASSED{background:var(--ok-soft);color:var(--ok)} .st.FAILED{background:var(--bad-soft);color:var(--bad)}
+.st.PRE_DONE{background:var(--warn-soft);color:var(--warn)} .st.NOT_STARTED{background:var(--grey-soft);color:var(--muted)}
+.link{color:var(--board);cursor:pointer;border:1px solid var(--line);background:#fff;border-radius:8px;padding:3px 10px;font-weight:600;font-size:13px}
+.login{max-width:400px;margin:56px auto;text-align:center}
+.login .logo-box{width:64px;height:64px;margin:0 auto 10px;border-radius:16px;box-shadow:0 2px 10px rgba(13,34,56,.15)}
+.login h2{margin:0 0 14px}
+.login input{width:100%;margin-bottom:10px;text-align:center}
+.login .btn{width:100%;padding:12px}
+.err{color:var(--bad);margin-top:8px}
+.hide{display:none!important}
+.empty{color:var(--muted);text-align:center;padding:30px}
+.printcards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+.pc{border:1px solid var(--line);border-radius:14px;padding:16px;background:#fff;text-align:left;cursor:pointer}
+.pc b{display:block;font-size:16px} .pc span{color:var(--muted);font-size:14px}
+.pc:hover{border-color:var(--copper)}
+
+/* ===== Paper (preview + print): Thai · 中文 · မြန်မာ ===== */
+#sheetView .bar{position:sticky;top:0;background:var(--bg);padding:10px 0;display:flex;gap:10px;z-index:2}
+.paper{background:#fff;color:#000;max-width:210mm;margin:0 auto;padding:12mm;box-shadow:0 2px 12px rgba(0,0,0,.12);font:10pt/1.45 var(--f-th)}
+.paper .zh{font-family:var(--f-zh)} .paper .my{font-family:var(--f-my)}
+.paper .doc-h{display:flex;align-items:center;gap:10px;border-bottom:2px solid #000;padding-bottom:6px;margin-bottom:8px}
+.paper .doc-h .logo-box{width:42px;height:42px;border:1px solid #ccc;border-radius:6px}
+.paper .doc-h h2{margin:0;font-size:13pt}
+.paper .doc-h .ttl{font-weight:700;font-size:10.5pt}
+.paper h3{font-size:10pt;margin:10px 0 4px;padding:3px 6px;background:#eee}
+.paper .small{font-size:8.5pt;color:#333}
+.paper table{width:100%;border-collapse:collapse}
+.paper .hd td{border:1px solid #000;padding:4px 6px;vertical-align:top}
+.paper .hd td.k{background:#f3f3f3;width:17%;font-size:8.5pt;line-height:1.35}
+.paper .q{display:grid;grid-template-columns:24px 34px 1fr;gap:4px;padding:4px 0;border-bottom:1px dotted #bbb;break-inside:avoid}
+.paper .q .box{border:1px solid #000;height:22px;text-align:center;font-weight:700;color:#c00}
+.paper .q .th{font-size:9.8pt} .paper .q .zh{font-size:9.3pt} .paper .q .my{font-size:9.3pt}
+.paper .ops{display:grid;grid-template-columns:1fr 1fr;gap:2px 14px;margin-top:3px;font-size:8.8pt}
+.paper .ops div.k{color:#c00;font-weight:700}
+.paper .ft td{border:1px solid #000;padding:6px;vertical-align:top}
+.paper .grid th,.paper .grid td{border:1px solid #000;padding:3px 5px;font-size:8.8pt;text-align:center;white-space:nowrap}
+.paper .grid th{background:#f3f3f3;line-height:1.3}
+.paper .grid td.l{text-align:left;white-space:normal}
+.paper .y{color:#0a7a3a;font-weight:700} .paper .n{color:#c00;font-weight:700}
+.paper img.sig{height:40px;max-width:140px;object-fit:contain}
+.paper .sign{display:grid;grid-template-columns:1fr 1fr;gap:30px;margin-top:26px;text-align:center;font-size:9pt}
+.paper .sign div{border-top:1px solid #000;padding-top:4px}
+@page{size:A4;margin:10mm}
+@media print{
+  body{background:#fff}
+  body>*:not(#sheetView){display:none!important}
+  #sheetView{display:block!important}
+  #sheetView .bar{display:none!important}
+  #sheetView main{padding:0;max-width:none}
+  .paper{box-shadow:none;padding:0;max-width:none}
+}
+@media (max-width:760px){ .kpis{grid-template-columns:1fr} .paper{padding:6mm} }
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<header class="top" id="topbar"><div class="top-in">
+  <div class="logo-box"><img class="logo" alt="UNITECH PCB"></div>
+  <div class="brand"><b>UNITECH PCB (THAILAND)</b><span data-t="title"></span></div>
+  <span class="sp"></span>
+  <nav class="tabs hide" id="tabs">
+    <button id="tabDash" class="on" data-t="tabDash"></button>
+    <button id="tabPrint" data-t="tabPrint"></button>
+    <button id="logout" data-t="logout"></button>
+  </nav>
+  <div class="seg" role="group" aria-label="Language"><button data-l="th">ไทย</button><button data-l="zh">中文</button></div>
+</div></header>
+
+<main id="main">
+  <div class="card login" id="loginBox">
+    <div class="logo-box"><img class="logo" alt="UNITECH PCB"></div>
+    <h2 data-t="loginTitle"></h2>
+    <input type="password" id="pw">
+    <button class="btn" id="pwGo" data-t="loginBtn"></button>
+    <div class="err" id="pwErr"></div>
+  </div>
+
+  <section id="dash" class="hide">
+    <div class="card toolbar">
+      <label><span data-t="date"></span> <input type="date" id="date"></label>
+      <span class="live" id="live"></span>
+      <span class="sp"></span>
+      <button class="btn" id="openBtn">…</button>
+      <button class="btn ghost" id="printDay" data-t="printDay"></button>
+    </div>
+    <div class="kpis">
+      <div class="kpi"><div class="l" data-t="kTotal"></div><div class="v" id="kTotal">–</div><div class="sub"><span class="chip" id="kAvg"></span></div></div>
+      <div class="kpi ok"><div class="l" data-t="kPass"></div><div class="v" id="kPass">–</div><div class="prog"><i id="kBar" style="width:0"></i></div><div class="l" id="kPct"></div></div>
+      <div class="kpi bad"><div class="l" data-t="kNot"></div><div class="v" id="kNot">–</div><div class="sub" id="kBreak"></div></div>
+    </div>
+    <div class="card">
+      <div class="toolbar" style="margin-bottom:10px">
+        <select id="fState"></select>
+        <input id="fText">
+        <span class="sp"></span><span class="live" id="cnt"></span>
+      </div>
+      <div class="tbl-wrap"><table class="t"><thead id="thead"></thead><tbody id="rows"></tbody></table></div>
+    </div>
+  </section>
+
+  <section id="printTab" class="hide">
+    <div class="card">
+      <h3 style="margin:0 0 4px" data-t="printTitle"></h3>
+      <p class="live" style="margin:0 0 12px" data-t="printNote"></p>
+      <div class="printcards">
+        <button class="pc" id="pBlank"><b data-t="blank"></b><span>ไทย · 中文 · မြန်မာ</span></button>
+        <button class="pc" id="pKey"><b data-t="key"></b><span>ไทย · 中文 · မြန်မာ</span></button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<section id="sheetView" class="hide">
+  <main>
+    <div class="bar"><button class="btn ghost" id="sheetBack" data-t="back"></button><button class="btn" id="doPrint" data-t="print"></button></div>
+    <div class="paper" id="paper"></div>
+  </main>
+</section>
+
+<script>
+/* ===== ตั้งค่า ===== */
+const API_URL = 'PASTE_WEB_APP_URL_HERE';   // URL เดียวกับ index.html
+const LOGO_SRC = 'logo.png';
+
+/* ===== UI 2 ภาษา (ไทย / 中文) ===== */
+const UI = {
+  th: { title:'ระบบสอบคู่มือพนักงาน · HR', tabDash:'รายงาน', tabPrint:'พิมพ์ข้อสอบ', logout:'ออก', loginTitle:'เข้าสู่ระบบ HR', pw:'รหัสผ่าน Admin', loginBtn:'เข้าสู่ระบบ', badPw:'รหัสผ่านไม่ถูกต้อง',
+    date:'วันที่', updated:x=>`อัปเดต ${x} · ทุก 10 วินาที`, isOpen:'🟢 เปิดสอบอยู่ — กดเพื่อปิด', isClosed:'🔴 ปิดสอบอยู่ — กดเพื่อเปิด', askOpen:'เปิดระบบสอบ?', askClose:'ปิดระบบสอบ? พนักงานจะสอบไม่ได้จนกว่าจะเปิดใหม่',
+    printDay:'🖨 พิมพ์รายงานวันนี้', kTotal:'ทั้งหมด (สอบ / นัดสอบวันนี้)', kPass:'ผ่านแล้ว', kNot:'ยังไม่ผ่าน', avg:(a,b)=>`Pre เฉลี่ย ${a} · Post เฉลี่ย ${b}`, pct:p=>`ผ่าน ${p}%`,
+    FAILED:'Post ไม่ผ่าน', PRE_DONE:'รอ Post', NOT_STARTED:'ยังไม่เริ่ม', PASSED:'ผ่านแล้ว', all:'ทุกสถานะ', search:'ค้นหา รหัส / ชื่อ / แผนก', people:n=>`${n} คน`,
+    cols:['รหัส','ชื่อ','แผนก','Pre','Post (ครั้ง)','Post ล่าสุด','สถานะ','เวลาล่าสุด',''], view:'ดูผล', empty:'ยังไม่มีข้อมูลในวันนี้',
+    printTitle:'พิมพ์ข้อสอบ', printNote:'ใช้เป็นหลักฐาน RBA และสอบกระดาษสำรอง · ข้อสอบดึงจากชีต Questions (แก้แล้วเปลี่ยน EXAM_VERSION)', blank:'ข้อสอบเปล่า', key:'ฉบับเฉลย', back:'← กลับ', print:'🖨 พิมพ์' },
+  zh: { title:'員工手冊測驗 · 人資', tabDash:'報表', tabPrint:'列印試卷', logout:'登出', loginTitle:'人資登入', pw:'管理員密碼', loginBtn:'登入', badPw:'密碼錯誤',
+    date:'日期', updated:x=>`更新 ${x} · 每 10 秒`, isOpen:'🟢 測驗開放中 — 點擊關閉', isClosed:'🔴 測驗已關閉 — 點擊開放', askOpen:'開放測驗？', askClose:'關閉測驗？關閉後員工無法作答。',
+    printDay:'🖨 列印當日報表', kTotal:'總人數（當日受測／預約）', kPass:'已及格', kNot:'未及格', avg:(a,b)=>`前測平均 ${a} · 後測平均 ${b}`, pct:p=>`及格率 ${p}%`,
+    FAILED:'後測不及格', PRE_DONE:'待後測', NOT_STARTED:'未開始', PASSED:'已及格', all:'全部狀態', search:'搜尋 工號／姓名／單位', people:n=>`${n} 人`,
+    cols:['工號','姓名','單位','前測','後測（次）','最近後測','狀態','最後時間',''], view:'查看', empty:'當日尚無資料',
+    printTitle:'列印試卷', printNote:'作為 RBA 佐證及紙本備用 · 試題來自 Questions 工作表（修改後請更新 EXAM_VERSION）', blank:'空白試卷', key:'解答版', back:'← 返回', print:'🖨 列印' }
+};
+
+/* ===== Print labels: ไทย · 中文 · မြန်မာ ===== */
+const P = (th, zh, my) => `${th} · <span class="zh">${zh}</span> · <span class="my">${my}</span>`;
+const PL = {
+  examTitle: P('แบบทดสอบคู่มือพนักงานต่างชาติ','外籍員工手冊測驗卷','နိုင်ငံခြားသား ဝန်ထမ်းလက်စွဲ စာမေးပွဲ'),
+  keyTag: P('ฉบับเฉลย','解答','အဖြေမှန်'),
+  type: P('ประเภท','類別','အမျိုးအစား'), name: P('ชื่อ','姓名','အမည်'), code: P('รหัสพนักงาน','工號','ဝန်ထမ်းနံပါတ်'),
+  dept: P('แผนก','單位','ဌာန'), date: P('วันที่สอบ','測考日','ရက်စွဲ'), nat: P('สัญชาติ','國籍','နိုင်ငံသား'), status: P('สถานะ','狀態','အခြေအနေ'),
+  attemptBlank: P('ครั้งที่','第＿次','အကြိမ်'),
+  tfHead: (p) => `I. ${P('ถูก / ผิด','是非題','မှန် / မှား')} — ${P('ถูกเขียน "O" ผิดเขียน "X"','對畫「O」錯畫「X」','မှန်လျှင် "O" မှားလျှင် "X"')} (${P(`ข้อละ ${p} คะแนน`,`每題${p}分`,`တစ်ပုဒ် ${p} မှတ်`)})`,
+  mcHead: (p) => `II. ${P('เลือกตอบ','選擇題','အဖြေရွေး')} — ${P('เขียนหมายเลขคำตอบ','填寫答案編號','အဖြေနံပါတ် ရေးပါ')} (${P(`ข้อละ ${p} คะแนน`,`每題${p}分`,`တစ်ပုဒ် ${p} မှတ်`)})`,
+  notes: P('ข้อควรทราบ','注意事項','သတိပြုရန်'),
+  n1: P('ผู้ตรวจต้องแก้ไขข้อที่ตอบผิดและอธิบายให้ผู้สอบเข้าใจอีกครั้ง','批改時應更正答錯之題目並再次說明','အမှားဖြေသော မေးခွန်းများကို ပြင်ဆင်ပြီး ပြန်လည် ရှင်းပြရမည်'),
+  n2: (p) => P(`คะแนนผ่าน ${p}% ผู้ไม่ผ่านต้องอบรมใหม่และสอบใหม่`,`及格分數為${p}分，不及格者應再次受訓並重新測驗`,`အောင်မှတ် ${p}။ မအောင်သူများ သင်တန်းပြန်တက်ပြီး ထပ်ဖြေရမည်`),
+  n3: P('สอบออนไลน์เป็นหลัก ฉบับกระดาษใช้สำรองและเป็นหลักฐาน','以線上測驗為主，紙本為備用及佐證','အွန်လိုင်း စာမေးပွဲကို အဓိကသုံးပြီး စာရွက်ကို အရန်/အထောက်အထားအဖြစ် သုံးသည်'),
+  total: P('คะแนนรวม','總分','စုစုပေါင်း ရမှတ်'), pass: P('ผ่าน','及格','အောင်'), fail: P('ไม่ผ่าน','不及格','ကျ'),
+  sigExaminee: P('ลายมือชื่อผู้สอบ','受測人簽名','ဖြေဆိုသူ လက်မှတ်'), sigExaminer: P('ผู้ตรวจ / ผู้สอน','評分人／講師','စစ်ဆေးသူ / သင်ကြားသူ'),
+  personTitle: P('ผลการทดสอบคู่มือพนักงานต่างชาติ (รายบุคคล)','外籍員工手冊測驗結果（個人）','ဝန်ထမ်းလက်စွဲ စာမေးပွဲ ရလဒ် (တစ်ဦးချင်း)'),
+  history: P('ประวัติการสอบ','測驗紀錄','စာမေးပွဲ မှတ်တမ်း'), detail: P('คำตอบรายข้อ (✓ ถูก / ✗ ผิด)','作答明細（✓ 對 ／ ✗ 錯）','အဖြေ အသေးစိတ် (✓ မှန် / ✗ မှား)'),
+  att: P('ครั้ง','次別','အကြိမ်'), dt: P('วัน-เวลา','日期時間','ရက်စွဲ/အချိန်'), score: P('คะแนน','分數','ရမှတ်'), result: P('ผล','結果','ရလဒ်'),
+  lang: P('ภาษาที่สอบ','作答語言','ဘာသာစကား'), ver: P('เวอร์ชัน','版本','ဗားရှင်း'), sig: P('ลายเซ็น','簽名','လက်မှတ်'),
+  q: P('คำถาม','題目','မေးခွန်း'), keyCol: P('เฉลย','答案','အဖြေမှန်'), noRes: P('ยังไม่มีผลสอบ','尚無測驗紀錄','ရလဒ် မရှိသေးပါ'),
+  passMark: (p) => P(`เกณฑ์ผ่าน ${p}%`,`及格標準 ${p}%`,`အောင်မှတ် ${p}%`),
+  instructor: P('ผู้สอน / ผู้ตรวจ','講師','သင်ကြားသူ'), hr: P('ฝ่ายบุคคล','人資','HR'),
+  dayTitle: (d) => `${P('รายงานผลการทดสอบประจำวัน','測驗日報','နေ့စဉ် အစီရင်ခံစာ')} ${d}`,
+  people: P('ทั้งหมด','總人數','စုစုပေါင်း'), passed: P('ผ่านแล้ว','已及格','အောင်ပြီး'), notPassed: P('ยังไม่ผ่าน','未及格','မအောင်သေး'),
+  avg: P('คะแนนเฉลี่ย','平均分數','ပျမ်းမျှ ရမှတ်'), list: P('รายชื่อ','名單','စာရင်း'), printed: P('พิมพ์เมื่อ','列印時間','ပုံနှိပ်ချိန်'),
+  prepared: P('ผู้จัดทำ (HR)','製表人（人資）','ပြုစုသူ (HR)'), approved: P('ผู้อนุมัติ','核准','အတည်ပြုသူ'),
+  st: { PASSED: P('ผ่านแล้ว','已及格','အောင်ပြီး'), FAILED: P('Post ไม่ผ่าน','後測不及格','Post မအောင်'), PRE_DONE: P('รอ Post','待後測','Post စောင့်ဆဲ'), NOT_STARTED: P('ยังไม่เริ่ม','未開始','မစရသေး') },
+  langName: { my:'<span class="my">မြန်မာ</span>', th:'ไทย', zh:'<span class="zh">中文</span>', '':'–' }
+};
+
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const A = { pass:'', info:null, data:null, timer:null, view:'login', lang:'th', back:'dash' };
+const u = k => UI[A.lang][k];
+function store(k, v){ try{ if(v === undefined) return sessionStorage.getItem(k); if(v === null) sessionStorage.removeItem(k); else sessionStorage.setItem(k, v); }catch(e){ return null; } }
+function today(){ const d = new Date(); return new Date(d.getTime() - d.getTimezoneOffset()*60000).toISOString().slice(0,10); }
+
+/* logo */
+function logoInto(img){ img.onerror = () => img.replaceWith(Object.assign(document.createElement('span'), { className:'logo-fb', textContent:'UT' })); img.src = LOGO_SRC; }
+document.querySelectorAll('img.logo').forEach(logoInto);
+const logoHtml = () => `<div class="logo-box"><img src="${LOGO_SRC}" alt="" onerror="this.outerHTML='<span class=logo-fb>UT</span>'"></div>`;
+
+/* language */
+function setLang(l){
+  A.lang = l; try{ localStorage.setItem('fwAdminLang', l); }catch(e){}
+  document.documentElement.lang = l === 'zh' ? 'zh-Hant-TW' : 'th';
+  document.body.className = 'l-' + l;
+  document.querySelectorAll('[data-t]').forEach(el => el.textContent = u(el.dataset.t));
+  document.querySelectorAll('.seg button').forEach(b => b.classList.toggle('on', b.dataset.l === l));
+  $('pw').placeholder = u('pw'); $('fText').placeholder = u('search');
+  $('fState').innerHTML = ['', 'FAILED', 'PRE_DONE', 'NOT_STARTED', 'PASSED'].map(s => `<option value="${s}">${s ? u(s) : u('all')}</option>`).join('');
+  $('thead').innerHTML = `<tr>${u('cols').map(c => `<th>${c}</th>`).join('')}</tr>`;
+  if(A.data) render();
+}
+try{ const l = localStorage.getItem('fwAdminLang'); if(UI[l]) A.lang = l; }catch(e){}
+document.querySelectorAll('.seg button').forEach(b => b.onclick = () => { const f = $('fState').value; setLang(b.dataset.l); $('fState').value = f; renderRows(); });
+
+async function api(action, data = {}){
+  try{
+    const r = await fetch(API_URL, { method:'POST', headers:{'Content-Type':'text/plain;charset=utf-8'}, body: JSON.stringify({ action, adminPass:A.pass, ...data }) });
+    return await r.json();
+  }catch(e){ return { ok:false, error:'NET' }; }
+}
+
+/* ---------- Login ---------- */
+async function doLogin(pw){
+  A.pass = pw;
+  const r = await api('adminCheck');
+  if(!r.ok){ $('pwErr').textContent = r.error === 'BAD_ADMIN_PASS' ? u('badPw') : r.error; store('fwAdmin', null); return; }
+  store('fwAdmin', pw); A.info = r;
+  $('loginBox').classList.add('hide'); $('tabs').classList.remove('hide');
+  show('dash');
+}
+$('pwGo').onclick = () => doLogin($('pw').value);
+$('pw').onkeydown = e => { if(e.key === 'Enter') doLogin($('pw').value); };
+$('logout').onclick = () => { store('fwAdmin', null); location.reload(); };
+
+function show(v){
+  A.view = v;
+  $('dash').classList.toggle('hide', v !== 'dash');
+  $('printTab').classList.toggle('hide', v !== 'print');
+  $('main').classList.toggle('hide', v === 'sheet');
+  $('topbar').classList.toggle('hide', v === 'sheet');
+  $('sheetView').classList.toggle('hide', v !== 'sheet');
+  $('tabDash').classList.toggle('on', v === 'dash');
+  $('tabPrint').classList.toggle('on', v === 'print');
+  if(v === 'dash') load();
+  window.scrollTo(0, 0);
+}
+$('tabDash').onclick = () => show('dash');
+$('tabPrint').onclick = () => show('print');
+$('sheetBack').onclick = () => show(A.back);
+$('doPrint').onclick = () => window.print();
+
+/* ---------- Dashboard (realtime) ---------- */
+$('date').value = today();
+$('date').onchange = () => load();
+$('fState').onchange = () => renderRows();
+$('fText').oninput = () => renderRows();
+
+async function load(){
+  clearTimeout(A.timer);
+  const r = await api('dashboard', { date: $('date').value });
+  if(r.ok){ A.data = r; render(); }
+  else $('live').textContent = '⚠ ' + r.error;
+  if(A.view === 'dash') A.timer = setTimeout(load, 10000);
+}
+document.addEventListener('visibilitychange', () => { if(document.visibilityState === 'visible' && A.view === 'dash' && A.pass) load(); });
+
+function render(){
+  const d = A.data, c = d.counts, pct = c.total ? Math.round(c.passed*100/c.total) : 0;
+  $('live').innerHTML = `<i></i>${esc(u('updated')(d.serverTime))}`;
+  $('kTotal').textContent = c.total; $('kPass').textContent = c.passed; $('kNot').textContent = c.notPassed;
+  $('kBar').style.width = pct + '%'; $('kPct').textContent = u('pct')(pct);
+  $('kAvg').textContent = u('avg')(c.avgPre ?? '–', c.avgPost ?? '–');
+  $('kBreak').innerHTML = `<span class="chip">${u('FAILED')} ${c.failedPost}</span><span class="chip">${u('PRE_DONE')} ${c.preOnly}</span><span class="chip">${u('NOT_STARTED')} ${c.notStarted}</span>`;
+  const b = $('openBtn'); b.textContent = d.open ? u('isOpen') : u('isClosed'); b.className = 'btn ' + (d.open ? 'green' : 'red');
+  renderRows();
+}
+function renderRows(){
+  if(!A.data) return;
+  const s = $('fState').value, q = $('fText').value.trim().toLowerCase();
+  const list = A.data.list.filter(x => (!s || x.state === s) && (!q || `${x.code} ${x.name} ${x.dept}`.toLowerCase().includes(q)));
+  $('cnt').textContent = u('people')(list.length);
+  $('rows').innerHTML = list.length ? list.map(x => `<tr>
+      <td>${esc(x.code)}</td><td>${esc(x.name)}</td><td>${esc(x.dept)}</td>
+      <td class="num">${x.preScore ?? '–'}</td><td class="num">${x.postAttempts || '–'}</td>
+      <td class="num">${x.passedScore ?? x.lastPostScore ?? '–'}</td>
+      <td><span class="st ${x.state}">${u(x.state)}</span></td><td>${esc(x.lastTime)}</td>
+      <td><button class="link" data-c="${esc(x.code)}">${u('view')}</button></td></tr>`).join('')
+    : `<tr><td colspan="9" class="empty">${u('empty')}</td></tr>`;
+  $('rows').querySelectorAll('button[data-c]').forEach(b => b.onclick = () => openPerson(b.dataset.c));
+}
+$('openBtn').onclick = async () => {
+  const want = !A.data.open;
+  if(!confirm(want ? u('askOpen') : u('askClose'))) return;
+  const r = await api('setOpen', { open: want });
+  if(r.ok){ A.data.open = r.open; render(); }
+};
+
+/* ---------- Paper ---------- */
+function paper(html, back){ $('paper').innerHTML = html; A.back = back; show('sheet'); }
+function docHead(company, title){
+  return `<div class="doc-h">${logoHtml()}<div><h2>${esc(company || 'UNITECH PCB (Thailand) Co., Ltd.')}</h2><div class="ttl">${title}</div></div></div>`;
+}
+const tri = (o) => `<div class="th">${esc(o.th)}</div><div class="zh">${esc(o.zh)}</div><div class="my">${esc(o.my)}</div>`;
+
+$('pBlank').onclick = () => printExam(false);
+$('pKey').onclick = () => printExam(true);
+async function printExam(key){
+  const r = await api('examForPrint');
+  if(!r.ok) return;
+  const tf = r.questions.filter(q => q.type === 'TF'), mc = r.questions.filter(q => q.type === 'MC');
+  const total = r.questions.reduce((s, q) => s + q.points, 0);
+  const qHtml = q => `<div class="q"><div>${esc(q.no)}.</div><div class="box">${key ? esc(q.ans) : ''}</div><div>${tri(q)}
+      ${q.opts.length ? `<div class="ops">${q.opts.map((o,i) => `<div class="${key && q.ans === String(i+1) ? 'k' : ''}">(${i+1}) ${esc(o.th)} · <span class="zh">${esc(o.zh)}</span> · <span class="my">${esc(o.my)}</span></div>`).join('')}</div>` : ''}</div></div>`;
+  paper(`
+    ${docHead(r.company, PL.examTitle + (key ? ` <span style="color:#c00">(${PL.keyTag})</span>` : ''))}
+    <table class="hd">
+      <tr><td class="k">${PL.type}</td><td colspan="3">☐ Pre-test　　☐ Post-test　${PL.attemptBlank} ______</td></tr>
+      <tr><td class="k">${PL.name}</td><td></td><td class="k">${PL.code}</td><td></td></tr>
+      <tr><td class="k">${PL.dept}</td><td></td><td class="k">${PL.date}</td><td></td></tr>
+    </table>
+    <h3>${PL.tfHead(tf[0]?.points ?? 4)}</h3>${tf.map(qHtml).join('')}
+    <h3>${PL.mcHead(mc[0]?.points ?? 4)}</h3>${mc.map(qHtml).join('')}
+    <table class="ft" style="margin-top:10px"><tr>
+      <td style="width:64%"><b>${PL.notes}</b><div class="small">1. ${PL.n1}<br>2. ${PL.n2(r.passScore)}<br>3. ${PL.n3}</div></td>
+      <td>${PL.total}<br><span style="font-size:16pt">______ / ${total}</span><br>☐ ${PL.pass}<br>☐ ${PL.fail}</td></tr></table>
+    <div class="sign"><div>${PL.sigExaminee}</div><div>${PL.sigExaminer}</div></div>
+    <p class="small" style="text-align:right;margin-top:10px">Version: ${esc(r.version)}</p>`, 'print');
+}
+
+async function openPerson(code){
+  const r = await api('personReport', { code });
+  if(!r.ok) return;
+  const e = r.emp, at = r.attempts;
+  const lbl = a => a.stage === 'PRE' ? 'Pre' : `Post #${a.attempt}`;
+  const res = a => a.stage === 'PRE' ? '–' : (a.result === 'PASS' ? `<span class="y">${PL.pass}</span>` : `<span class="n">${PL.fail}</span>`);
+  const mark = (q, a) => { const v = a.answers[q.id]; if(!v) return '–'; return `<span class="${v === q.ans ? 'y' : 'n'}">${esc(v)} ${v === q.ans ? '✓' : '✗'}</span>`; };
+  paper(`
+    ${docHead(r.company, PL.personTitle)}
+    <table class="hd">
+      <tr><td class="k">${PL.name}</td><td>${esc(e.name)}</td><td class="k">${PL.code}</td><td>${esc(e.code)}</td></tr>
+      <tr><td class="k">${PL.dept}</td><td>${esc(e.dept)}</td><td class="k">${PL.nat}</td><td>${esc(e.nat)}</td></tr>
+      <tr><td class="k">${PL.status}</td><td colspan="3"><b>${PL.st[r.status.state]}</b>　(${PL.passMark(r.passScore)})</td></tr>
+    </table>
+    <h3>${PL.history}</h3>
+    ${at.length ? `<table class="grid"><tr><th>${PL.att}</th><th>${PL.dt}</th><th>${PL.score}</th><th>${PL.result}</th><th>${PL.lang}</th><th>${PL.ver}</th><th>${PL.sig}</th></tr>
+      ${at.map(a => `<tr><td>${lbl(a)}</td><td>${esc(a.time)}</td><td>${a.score}</td><td>${res(a)}</td><td>${PL.langName[a.lang || '']}</td><td>${esc(a.version)}</td>
+        <td>${a.signature ? `<img class="sig" src="${esc(a.signature)}" alt="">` : '–'}</td></tr>`).join('')}</table>` : `<p>${PL.noRes}</p>`}
+    ${at.length ? `<h3>${PL.detail}</h3><table class="grid">
+      <tr><th>#</th><th style="text-align:left">${PL.q}</th><th>${PL.keyCol}</th>${at.map(a => `<th>${lbl(a)}</th>`).join('')}</tr>
+      ${r.questions.map(q => `<tr><td>${q.type === 'TF' ? 'I' : 'II'}-${esc(q.no)}</td><td class="l">${tri(q)}</td><td>${esc(q.ans)}</td>${at.map(a => `<td>${mark(q, a)}</td>`).join('')}</tr>`).join('')}
+      <tr><th colspan="3">${PL.total}</th>${at.map(a => `<th>${a.score}</th>`).join('')}</tr></table>` : ''}
+    <div class="sign"><div>${PL.instructor}</div><div>${PL.hr}</div></div>`, 'dash');
+}
+
+$('printDay').onclick = () => {
+  const d = A.data; if(!d) return;
+  const c = d.counts;
+  paper(`
+    ${docHead(A.info?.company, PL.dayTitle(esc(d.date)))}
+    <table class="hd">
+      <tr><td class="k">${PL.people}</td><td>${c.total}</td><td class="k">${PL.passed}</td><td>${c.passed}</td></tr>
+      <tr><td class="k">${PL.notPassed}</td><td>${c.notPassed}　(${PL.st.FAILED} ${c.failedPost} · ${PL.st.PRE_DONE} ${c.preOnly} · ${PL.st.NOT_STARTED} ${c.notStarted})</td>
+          <td class="k">${PL.avg}</td><td>Pre ${c.avgPre ?? '–'} → Post ${c.avgPost ?? '–'}</td></tr>
+    </table>
+    <h3>${PL.list}</h3>
+    <table class="grid"><tr><th>#</th><th>${PL.code}</th><th>${PL.name}</th><th>${PL.dept}</th><th>Pre</th><th>Post (${PL.att})</th><th>Post ${PL.score}</th><th>${PL.status}</th></tr>
+      ${d.list.map((x, i) => `<tr><td>${i+1}</td><td>${esc(x.code)}</td><td class="l">${esc(x.name)}</td><td>${esc(x.dept)}</td><td>${x.preScore ?? '–'}</td>
+        <td>${x.postAttempts || '–'}</td><td>${x.passedScore ?? x.lastPostScore ?? '–'}</td><td class="l">${PL.st[x.state]}</td></tr>`).join('')}</table>
+    <p class="small">${PL.printed} ${new Date().toLocaleString('th-TH')}</p>
+    <div class="sign"><div>${PL.prepared}</div><div>${PL.approved}</div></div>`, 'dash');
+};
+
+/* ---------- Start ---------- */
+setLang(A.lang);
+const saved = store('fwAdmin');
+if(saved) doLogin(saved);
+</script>
+</body>
+</html>
